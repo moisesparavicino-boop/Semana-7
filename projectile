@@ -1,0 +1,40 @@
+```csharp
+using UnityEngine;
+
+public class Projectile : MonoBehaviour
+{
+    public float speed;
+    public StatusEffect effect;
+    public float duration;
+
+    public Vector2 direction = Vector2.up;
+    public float tiempoDeVida = 5f;
+
+    private void Start()
+    {
+        Destroy(gameObject, duration);
+        Destroy(gameObject, tiempoDeVida);
+    }
+
+    private void Update()
+    {
+        transform.position +=
+            (Vector3)direction.normalized * speed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Enemy enemy = collision.GetComponent<Enemy>();
+
+        if (enemy == null)
+            return;
+
+        if (duration > 0f)
+            enemy.ApplyStatus(effect, duration);
+        else
+            enemy.ApplyStatus(effect);
+
+        Destroy(gameObject);
+    }
+}
+```
