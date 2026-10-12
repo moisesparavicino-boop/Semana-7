@@ -1,0 +1,42 @@
+using MoreMountains.Feedbacks;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public abstract class BaseAbility : MonoBehaviour
+{
+    public Projectile projectilePrefab;
+    public Transform firePoint;
+    public MMF_Player castFeedback;
+
+    public abstract void Execute();
+
+    protected virtual void PlayFeedback()
+    {
+        if (castFeedback != null)
+            castFeedback.PlayFeedbacks();
+    }
+
+    protected void Shoot(float speed, StatusEffect effect, float duration)
+    {
+        Vector3 posicionMouse = Mouse.current.position.ReadValue();
+
+        posicionMouse.z =
+            firePoint.position.z - Camera.main.transform.position.z;
+
+        Vector3 destino = Camera.main.ScreenToWorldPoint(posicionMouse);
+
+        Vector2 direccion = destino - firePoint.position;
+
+        Projectile projectile = Instantiate(
+            projectilePrefab,
+            firePoint.position,
+            Quaternion.identity
+        );
+
+        projectile.speed = speed;
+        projectile.duration = duration;
+        projectile.effect = effect;
+        projectile.direction = direccion.normalized;
+    }
+}
+```
