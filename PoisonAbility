@@ -1,0 +1,21 @@
+using UnityEngine;
+using MoreMountains.Feedbacks;
+
+public class PoisonAbility : BaseAbility
+{
+    [SerializeField] private MMF_Player poisonParticlesFeedback;
+
+    public override void Execute()
+    {
+        Shoot(7f, StatusEffect.Poison, 5f);
+        PlayFeedback();
+    }
+
+    protected override void PlayFeedback()
+    {
+        base.PlayFeedback();
+
+        if (poisonParticlesFeedback != null)
+            poisonParticlesFeedback.PlayFeedbacks();
+    }
+}
