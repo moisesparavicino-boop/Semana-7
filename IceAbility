@@ -1,0 +1,25 @@
+using UnityEngine;
+using MoreMountains.Feedbacks;
+
+public class IceAbility : BaseAbility
+{
+    public MMF_Player iceFeedback;
+    [SerializeField] private MMF_Player iceParticlesFeedback;
+
+    public override void Execute()
+    {
+        Shoot(8f, StatusEffect.Freeze, 3f);
+        PlayFeedback();
+    }
+
+    protected override void PlayFeedback()
+    {
+        if (iceFeedback != null)
+            iceFeedback.PlayFeedbacks();
+
+        base.PlayFeedback();
+
+        if (iceParticlesFeedback != null)
+            iceParticlesFeedback.PlayFeedbacks();
+    }
+}
